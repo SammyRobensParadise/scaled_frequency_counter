@@ -8,6 +8,8 @@ long startTime;
 int pinState;
 void setup()
 {
+ //TCCR0B = (_BV(CS10) | _BV(CS00));
+ TCCR0B = TCCR0B & B11111000 | B0000101;
   // Setup input pin here
   Serial.begin(9600); //sets up communication wit the serial monitor
   /*  TCCR0B = ( _BV(CS02) | _BV(CS00));/* Writes to Timer0 register to change it's clock rate
@@ -29,7 +31,8 @@ void loop()
     }
     duration = abs(millis() - startcount); // calculating the duration in miliseconds of a complete or part cycle.
     period = (float)duration / 1000;
-    frequency = (1) / (period*2);
+    scaled_period = period*64;
+    frequency = (1) / (scaled_period*2);
     Serial.print(" Frequency is = ");
     Serial.println(frequency);
 
